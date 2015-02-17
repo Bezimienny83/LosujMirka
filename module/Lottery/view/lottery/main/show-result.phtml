@@ -1,0 +1,121 @@
+<?php
+$this->inlineScript()->appendFile('/js/show-result.js');
+$this->headTitle('Wynik losowania');
+if ($error) {
+    ?>
+    <div class="row top-buffer">
+        <div class="col-md-6 col-md-offset-3">
+            <div id="no-result">
+                <h1>Nie ma takiego losowania!</h1>
+            </div>
+        </div>
+    </div>
+<?php
+}
+if ($data != NULL) {
+    $limit = 5;
+    ?>
+    <div class="row top-buffer">
+        <div class="col-md-6 col-md-offset-4">
+            <h1>Wyniki losowania</h1>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-4">
+            Link do wpisu: <a href=" <?php echo $data->baseLink; ?>" target="_blank">wpis z Mirko</a>
+        </div>
+        <div class="col-md-4">
+            Ostatni plusujący mirek: <a
+                href="<?php echo 'http://www.wykop.pl/ludzie/' . $data->lastUser; ?>"
+                target="_blank"><?php echo $data->lastUser; ?></a>
+        </div>
+        <div class="col-md-4">
+            <?php if (count($data->winners) == 1) { ?>
+                Zwycięzca:
+            <?php } else {
+                ?>
+                Zwycięzcy:
+            <?php
+            } ?>  <?php
+            foreach ($data->winners as $item) {
+                ?>
+                <a
+                    href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                    target="_blank"><?php echo $item; ?></a>
+            <?php
+            } ?>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-6 col-md-offset-3">
+            Link do wyników losowania:
+            <div
+                class="select"
+                id="select"><?php echo $this->url('home', array(), array('force_canonical' => true)) . $this->url('main', array('action' => 'showResult', 'hash' => $data->hash)); ?></div>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-4 upVotersContainer">
+            Lista plusujących mireczków:
+            <?php
+            $i = 0;
+            foreach ($data->upVoters as $item) {
+                if ($i == $limit)
+                    echo '<div class="long-list hide-upVoters">';
+                ?>
+                <div class="row upVoter"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+                <?php
+                $i++;
+            }
+            if ($i > $limit) {
+                echo '</div>';
+                echo '<button class="btn btn-default list-collapse upVoters-list top-buffer" style="display: none;">Rozwiń</button>';
+            }
+
+            ?>
+        </div>
+        <div class="col-md-4 activeUpVotersContainer">
+            Lista mireczków biorących udział w losowaniu:
+            <?php
+            $i = 0;
+            foreach ($data->activeUpVoters as $item) {
+                if ($i == $limit)
+                    echo '<div class="long-list hide-activeUpVoter">';
+                ?>
+                <div class="row activeUpVoter"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+                <?php
+                $i++;
+            }
+            if ($i > $limit) {
+                echo '</div>';
+                echo '<button class="btn btn-default list-collapse activeUpVoters-list top-buffer" style="display: none;">Rozwiń</button>';
+            }
+            ?>
+        </div>
+        <div class="col-md-4 inactiveUpVoterContainer">
+            Lista mireczków niebiorących udziału w losowaniu:
+            <?php
+            $i = 0;
+            foreach ($data->inactiveUpVoters as $item) {
+                if ($i == $limit)
+                    echo '<div class="long-list hide-inactiveUpVoter">';
+                ?>
+                <div class="row inactiveUpVoter"><a
+                        href="<?php echo 'http://www.wykop.pl/ludzie/' . $item; ?>"
+                        target="_blank"><?php echo $item; ?></a></div>
+                <?php
+                $i++;
+            }
+            if ($i > $limit) {
+                echo '</div>';
+                echo '<button class="btn btn-default list-collapse inactiveUpVoters-list top-buffer" style="display: none;">Rozwiń</button>';
+            }
+            ?>
+        </div>
+    </div>
+<?php
+}
