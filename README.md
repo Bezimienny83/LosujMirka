@@ -8,3 +8,5 @@ Used technologies:
 
 LosujMirka utilizes RandomAPI from https://www.random.org/ to draw UpVoter.
 It is running here: http://losuj-mirka.byethost7.com/
+
+ZF2 files are not included.
